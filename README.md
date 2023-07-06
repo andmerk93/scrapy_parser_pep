@@ -38,12 +38,12 @@ python3 -m venv venv
 pip install -r requirements.txt
 ```
 
-- затем, просто выполнить команду
+- затем, выполнить команду
 ```
 scrapy crawl pep
 ```
 
-Требуемые файлы появятся в папке `results`
+Файлы с результатами появятся в папке `results`
 
 
-### Автор: [andmerk93](https://github.com/andmerk93)
+### Автор: [Андрей Меркулов](https://github.com/andmerk93)

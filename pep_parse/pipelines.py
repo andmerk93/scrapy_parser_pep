@@ -1,13 +1,6 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-
-
-# useful for handling different item types with a single interface
 # from itemadapter import ItemAdapter
 from collections import defaultdict
-from csv import DictWriter
+import csv
 from datetime import datetime
 from pathlib import Path
 
@@ -22,16 +15,20 @@ class PepParsePipeline:
         results_dir.mkdir(exist_ok=True)
         date = datetime.strftime(datetime.now(), '%Y-%m-%d_%H-%M-%S')
         self.file = results_dir / f'status_summary_{date}.csv'
+        # только в таком виде отрабатывают автотесты,
+        # папка должна создаваться при старте паука,
+        # значит имя файла лучше сделать полем объекта
 
     def process_item(self, item, spider):
         self.status_count[item['status']] += 1
         return item
 
     def close_spider(self, spider):
-        self.status_count['Total'] = sum(self.status_count.values())
-        with open(self.file, 'w', newline='') as csv_file:
-            fieldnames = ['Status', 'Quantity']
-            writer = DictWriter(csv_file, fieldnames=fieldnames)
-            writer.writeheader()
-            for status, quantity in self.status_count.items():
-                writer.writerow({'Status': status, 'Quantity': quantity})
+        with open(self.file, 'w', encoding='utf-8', newline='') as csv_file:
+            csv.writer(csv_file, dialect=csv.excel).writerows(
+                (
+                    ('Status', 'Quantity'),
+                    *self.status_count.items(),
+                    ('Total', sum(self.status_count.values()))
+                )
+            )
