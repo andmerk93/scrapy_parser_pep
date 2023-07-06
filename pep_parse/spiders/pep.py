@@ -12,7 +12,8 @@ class PepSpider(scrapy.Spider):
         links = set(
             response.css('table.pep-zero-table a::attr(href)').getall()
         )
-        for pep_url in list(links)[:3]:
+        # for pep_url in list(links)[:3]:
+        for pep_url in links:
             yield response.follow(pep_url, callback=self.parse_pep)
 
     def parse_pep(self, response):
