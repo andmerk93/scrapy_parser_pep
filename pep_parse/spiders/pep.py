@@ -17,9 +17,11 @@ class PepSpider(scrapy.Spider):
             yield response.follow(pep_url, callback=self.parse_pep)
 
     def parse_pep(self, response):
-        number, name = response.css('.page-title::text').get().split(' – ')
-        yield PepParseItem(dict(
+        number, name = response.css(
+            '.page-title::text'
+        ).get().split(' – ', maxsplit=1)
+        yield PepParseItem(
             name=name,
             number=number[4:],
             status=response.css('abbr::text').get(),
-        ))
+        )

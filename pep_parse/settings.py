@@ -2,7 +2,6 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
 RESULTS_NAME = 'results'
-(BASE_DIR / RESULTS_NAME).mkdir(exist_ok=True)
 
 BOT_NAME = "pep_parse"
 SPIDER_MODULES = ["pep_parse.spiders"]
