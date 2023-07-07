@@ -1,6 +1,6 @@
 from collections import defaultdict
-import csv
 from datetime import datetime
+import csv
 
 from .settings import BASE_DIR, RESULTS_NAME
 
