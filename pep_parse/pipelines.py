@@ -6,6 +6,8 @@ from .settings import BASE_DIR, RESULTS_NAME
 
 
 class PepParsePipeline:
+    def __init__(self) -> None:
+        (BASE_DIR / RESULTS_NAME).mkdir(exist_ok=True)
 
     def open_spider(self, spider):
         self.status_count = defaultdict(int)
